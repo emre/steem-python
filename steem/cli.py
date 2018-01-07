@@ -929,7 +929,7 @@ def legacy():
 
     # initialize STEEM instance
     options = {
-        "node": args.node,
+        "nodes": [args.node] if args.node else None,
         "unsigned": args.unsigned,
         "expires": args.expires
     }
@@ -958,7 +958,7 @@ def legacy():
         if not args.objects:
             t = PrettyTable(["Key", "Value"])
             t.align = "l"
-            blockchain = Blockchain(mode="head")
+            blockchain = Blockchain(mode="head", steemd_instance=steem)
             info = blockchain.info()
             median_price = steem.get_current_median_history_price()
             steem_per_mvest = (
