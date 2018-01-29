@@ -714,15 +714,6 @@ class Testcases(unittest.TestCase):
                 "percent_steem_dollars": 10000,
                 "allow_votes": True,
                 "allow_curation_rewards": True,
-                "beneficiaries": [
-                    {
-                        "weight": 2000,
-                        "account": "good-karma"
-                    },
-                    {
-                        "weight": 5000,
-                        "account": "null"
-                    }],
             }
         )
         ops = [operations.Operation(op)]

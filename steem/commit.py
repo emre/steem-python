@@ -167,7 +167,6 @@ class Commit(object):
              comment_options=None,
              community=None,
              tags=None,
-             beneficiaries=None,
              self_vote=False):
         """ Create a new post.
 
@@ -208,15 +207,6 @@ class Commit(object):
             tags (str, list): (Optional) A list of tags (5 max) to go with the post. This will also override the
                 tags specified in `json_metadata`. The first tag will be used as a 'category'.
                 If provided as a string, it should be space separated.
-            beneficiaries (list of dicts): (Optional) A list of beneficiaries for posting reward distribution.
-                This argument overrides beneficiaries as specified in `comment_options`.
-
-                For example, if we would like to split rewards between account1 and account2::
-
-                    beneficiaries = [
-                        {'account': 'account1', 'weight': 5000},
-                        {'account': 'account2', 'weight': 5000}
-                    ]
 
             self_vote (bool): (Optional) Upvote the post as author, right after posting.
         """
@@ -276,7 +266,7 @@ class Commit(object):
         ops = [post_op]
 
         # if comment_options are used, add a new op to the transaction
-        if comment_options or beneficiaries:
+        if comment_options:
             options = keep_in_dict(comment_options or {},
                                    ['max_accepted_payout',
                                     'percent_steem_dollars',
@@ -284,19 +274,6 @@ class Commit(object):
                                     'allow_curation_rewards',
                                     'extensions'
                                     ])
-            # override beneficiaries extension
-            if beneficiaries:
-                # validate schema
-                # or just simply vo.Schema([{'account': str, 'weight': int}])
-                schema = vo.Schema([
-                    {
-                        vo.Required('account'): vo.All(str, vo.Length(max=16)),
-                        vo.Required('weight', default=10000): vo.All(int, vo.Range(min=1, max=10000))
-                    }
-                ])
-                schema(beneficiaries)
-                options['beneficiaries'] = beneficiaries
-
             default_max_payout = "1000000.000 SBD"
             comment_op = operations.CommentOptions(
                 **{"author": author,
@@ -306,7 +283,6 @@ class Commit(object):
                    "allow_votes": options.get("allow_votes", True),
                    "allow_curation_rewards": options.get("allow_curation_rewards", True),
                    "extensions": options.get("extensions", []),
-                   "beneficiaries": options.get("beneficiaries"),
                    }
 
             )
