@@ -118,7 +118,7 @@ class Account(dict):
     def voting_power(self):
         return self['voting_power'] / 100
 
-    def effective_voting_power(self):
+    def current_voting_power(self):
         """
         This helper method also takes into account the regenerated
         voting power.
