@@ -4,6 +4,7 @@ from steembase import transactions, operations
 from steembase.storage import configStorage as config
 
 from .amount import Amount
+from .commit import Commit
 from .instance import shared_steemd_instance
 
 
@@ -18,6 +19,7 @@ class Dex(object):
 
     def __init__(self, steemd_instance=None):
         self.steemd = steemd_instance or shared_steemd_instance()
+        self.commit = Commit(steemd_instance=self.steemd)
 
     def _get_asset(self, symbol):
         """ Return the properties of the assets tradeable on the
@@ -183,7 +185,7 @@ class Dex(object):
             "fill_or_kill": killfill,
             "expiration": transactions.fmt_time_from_now(expiration)
         })
-        return self.steemd.commit.finalizeOp(op, account, "active")
+        return self.commit.finalizeOp(op, account, "active")
 
     def sell(self,
              amount,
@@ -229,7 +231,7 @@ class Dex(object):
             "fill_or_kill": killfill,
             "expiration": transactions.fmt_time_from_now(expiration)
         })
-        return self.steemd.commit.finalizeOp(op, account, "active")
+        return self.commit.finalizeOp(op, account, "active")
 
     def cancel(self, orderid, account=None):
         """ Cancels an order you have placed in a given market.
@@ -247,4 +249,4 @@ class Dex(object):
             "owner": account,
             "orderid": orderid,
         })
-        return self.steemd.commit.finalizeOp(op, account, "active")
+        return self.commit.finalizeOp(op, account, "active")
