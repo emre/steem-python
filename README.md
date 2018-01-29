@@ -70,19 +70,15 @@ Package should be installed in any environment without hassle.
 
 Reputation calculation is aligned with the condenser. 
 
-
 ```python
 from steem.account import Account
 
 print(Account('emrebeyler').rep)
-
-```python
+```
 
 ### Implement DeleteComment operation.
 
 delete_comment now has a high-level abstraction in **operations.py**. 
-
-
 
 ## Documentation
 Documentation of the main package is available at **http://steem.readthedocs.io**
