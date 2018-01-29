@@ -42,7 +42,7 @@ class Blog:
     def __init__(self, account_name: str, comments_only=False, steemd_instance=None):
         self.steem = steemd_instance or shared_steemd_instance()
         self.comments_only = comments_only
-        self.account = Account(account_name)
+        self.account = Account(account_name, steemd_instance=self.steem)
         self.history = self.account.history_reverse(filter_by='comment')
         self.seen_items = set()
 
@@ -72,7 +72,8 @@ class Blog:
 
         unique = filter(ensure_unique, hist2)
 
-        serialized = filter(bool, map(silent(Post), unique))
+        postmap = [silent(Post(u, steemd_instance=self.steem)) for u in unique]
+        serialized = filter(bool, postmap)
 
         batch = take(limit, serialized)
         return batch

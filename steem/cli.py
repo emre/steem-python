@@ -978,7 +978,7 @@ def legacy():
         for obj in args.objects:
             # Block
             if re.match("^[0-9]*$", obj):
-                block = Block(obj)
+                block = Block(obj, steemd_instance=steem)
                 if block:
                     t = PrettyTable(["Key", "Value"])
                     t.align = "l"
@@ -993,7 +993,7 @@ def legacy():
             # Account name
             elif re.match("^[a-zA-Z0-9\-\._]{2,16}$", obj):
                 from math import log10
-                account = Account(obj)
+                account = Account(obj, steemd_instance=steem)
                 t = PrettyTable(["Key", "Value"])
                 t.align = "l"
                 for key in sorted(account):
@@ -1044,7 +1044,7 @@ def legacy():
                     print("Public Key not known" % obj)
             # Post identifier
             elif re.match(".*@.{3,16}/.*$", obj):
-                post = Post(obj)
+                post = Post(obj, steemd_instance=steem)
                 if post:
                     t = PrettyTable(["Key", "Value"])
                     t.align = "l"
@@ -1143,7 +1143,7 @@ def legacy():
         print(t)
 
     elif args.command == "upvote" or args.command == "downvote":
-        post = Post(args.post)
+        post = Post(args.post, steemd_instance=steem)
         if args.command == "downvote":
             weight = -float(args.weight)
         else:
@@ -1192,7 +1192,7 @@ def legacy():
     elif args.command == "balance":
         if args.account and isinstance(args.account, list):
             for account in args.account:
-                a = Account(account)
+                a = Account(account, steemd_instance=steem)
 
                 print("\n@%s" % a.name)
                 t = PrettyTable(["Account", "STEEM", "SBD", "VESTS"])
@@ -1247,7 +1247,7 @@ def legacy():
         print(t)
 
     elif args.command == "permissions":
-        account = Account(args.account)
+        account = Account(args.account, steemd_instance=steem)
         print_permissions(account)
 
     elif args.command == "allow":
@@ -1313,7 +1313,7 @@ def legacy():
         from steembase.account import PasswordKey
         import getpass
         password = getpass.getpass("Account Passphrase: ")
-        account = Account(args.account)
+        account = Account(args.account, steemd_instance=steem)
         imported = False
 
         if "owner" in args.roles:
@@ -1456,7 +1456,7 @@ def legacy():
 
         profile = Profile(keys, values)
 
-        account = Account(args.account)
+        account = Account(args.account, steemd_instance=steem)
         account["json_metadata"] = Profile(
             account["json_metadata"]
             if account["json_metadata"]
@@ -1471,7 +1471,7 @@ def legacy():
 
     elif args.command == "delprofile":
         from .profile import Profile
-        account = Account(args.account)
+        account = Account(args.account, steemd_instance=steem)
         account["json_metadata"] = Profile(account["json_metadata"])
 
         for var in args.variable:

@@ -336,7 +336,7 @@ class Wallet:
                     }
         else:
             try:
-                account = Account(name)
+                account = Account(name, steemd_instance=self.steemd)
             except:
                 return
             keyType = self.getKeyType(account, pub)
