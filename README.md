@@ -6,7 +6,7 @@
 You can install `steem-python-dshot` with `pip`:
 
 ```
-pip install -U steem-dshot
+pip install -U steem_dshot
 ```
 
 ## Documentation
