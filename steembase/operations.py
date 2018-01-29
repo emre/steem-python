@@ -707,5 +707,18 @@ class CommentOptions(GrapheneObject):
             ]))
 
 
+class DeleteComment(GrapheneObject):
+    def __init__(self, *args, **kwargs):
+        if isArgsThisClass(self, args):
+            self.data = args[0].data
+        else:
+            if len(args) == 1 and len(kwargs) == 0:
+                kwargs = args[0]
+            super().__init__(OrderedDict([
+                ('author', String(kwargs["author"])),
+                ('permlink', String(kwargs["permlink"])),
+            ]))
+
+
 def isArgsThisClass(self, args):
     return len(args) == 1 and type(args[0]).__name__ == type(self).__name__
