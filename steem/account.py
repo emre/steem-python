@@ -118,6 +118,21 @@ class Account(dict):
     def voting_power(self):
         return self['voting_power'] / 100
 
+    def effective_voting_power(self):
+        """
+        This helper method also takes into account the regenerated
+        voting power.
+        """
+        last_vote_time = parse_time(self["last_vote_time"])
+        diff_in_seconds = (datetime.datetime.utcnow() -
+                           last_vote_time).total_seconds()
+        regenerated_vp = diff_in_seconds * 10000 / 86400 / 5
+        total_vp = (self["voting_power"] + regenerated_vp) / 100
+        if total_vp > 100:
+            total_vp = 100
+
+        return total_vp
+
     def get_followers(self):
         return [x['follower'] for x in self._get_followers(direction="follower")]
 
