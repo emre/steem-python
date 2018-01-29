@@ -80,7 +80,7 @@ def legacy():
         '--version',
         action='version',
         version='%(prog)s {version}'.format(
-            version=pkg_resources.require("steem")[0].version
+            version=pkg_resources.require("steem_dshot")[0].version
         )
     )
 
