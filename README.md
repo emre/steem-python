@@ -55,12 +55,12 @@ print(Account('emrebeyler').current_voting_power())
 
 ### Propagation of custom steemd instance to internal constructors 
 
-Account, Post, Blockchain, Converter, Block classes now obeys the custom node selection. (credits to [@crokkon](https://steemit.com/crokkon))
+Account, Post, Blockchain, Converter, Block classes now obeys the custom node selection. (credits to [@crokkon](https://steemit.com/@crokkon))
 
 ### Fix custom node selection on steempy CLI.
 
 The steempy cli ignored the setting from the --node command line option and always used the default node due to a parameter name mismatch/typo on the Steem()
-constructor parameters.  (credits to [@crokkon](https://steemit.com/crokkon))
+constructor parameters.  (credits to [@crokkon](https://steemit.com/@crokkon))
 
 ### Fix the version of TOML in dependencies.
 
