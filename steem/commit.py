@@ -50,7 +50,6 @@ STEEMIT_1_PERCENT = (STEEMIT_100_PERCENT / 100)
 # custom_binary [any]
 
 # custom [active]
-# delete_comment [posting]
 
 # enable_content_editing_operation [active]
 
@@ -1277,6 +1276,24 @@ class Commit(object):
                 "allow_curation_rewards": options.get("allow_curation_rewards", True),
             }
         )
+        return self.finalizeOp(op, account["name"], "posting")
+
+    def delete_comment(self, identifier, account=None):
+        if not account:
+            account = configStorage.get("default_account")
+        if not account:
+            raise ValueError("You need to provide an account")
+
+        author, permlink = resolve_identifier(identifier)
+
+        if author != account:
+            raise ValueError("You can only delete your own comments.")
+
+        account = Account(account, steemd_instance=self.steemd)
+        op = operations.DeleteComment(
+            **{"author": author,
+               "permlink": permlink,
+               })
         return self.finalizeOp(op, account["name"], "posting")
 
 

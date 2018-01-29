@@ -735,6 +735,29 @@ class Testcases(unittest.TestCase):
         )
         self.assertEqual(compare[:-130], txWire[:-130])
 
+    def test_delete_comment(self):
+        op = operations.DeleteComment(
+            **{"author": "turbot",
+               "permlink": "testpost",
+               }
+        )
+        ops = [operations.Operation(op)]
+        tx = SignedTransaction(
+            ref_block_num=ref_block_num,
+            ref_block_prefix=ref_block_prefix,
+            expiration=expiration,
+            operations=ops
+        )
+        tx = tx.sign([wif], chain=self.steem.chain_params)
+        tx_wire = hexlify(bytes(tx)).decode("ascii")
+        compare = (
+            "f68585abf4dce7c80457011106747572626f740874657374706f73"
+            "7400011f0d413176d24455d6d9b5b9416384fcf63f080a70d8b243"
+            "c579f996ce8c116ce0583b433d4ce9107438b72d39eb6195027880"
+            "54b97abc20bf86b17a11d3eb8351"
+        )
+        self.assertEqual(compare[:-130], tx_wire[:-130])
+
     def compareConstructedTX(self):
         #    def test_online(self):
         #        self.maxDiff = None
