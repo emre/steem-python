@@ -19,7 +19,7 @@ It still supports extensions. So you can set beneficiaries like this:
 ```python
 from steem import Steem
 
-s = Steem(keys=["active_wif"])
+s = Steem(keys=["posting_wif"])
 
 comment_options = {
     "extensions": [[0, {
