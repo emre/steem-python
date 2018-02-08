@@ -72,7 +72,7 @@ class Blog:
 
         unique = filter(ensure_unique, hist2)
 
-        postmap = [silent(Post(u, steemd_instance=self.steem)) for u in unique]
+        postmap = map(silent(lambda u: Post(u, steemd_instance=self.steem)), unique)
         serialized = filter(bool, postmap)
 
         batch = take(limit, serialized)

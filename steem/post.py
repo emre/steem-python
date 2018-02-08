@@ -150,7 +150,7 @@ class Post(dict):
         """
         post_author, post_permlink = resolve_identifier(self.identifier)
         replies = self.steemd.get_content_replies(post_author, post_permlink)
-        return map(silent(Post), replies)
+        return map(silent(lambda r: Post(r, steemd_instance=self.steemd)), replies)
 
     @staticmethod
     def get_all_replies(root_post=None, comments=list(), all_comments=list()):
